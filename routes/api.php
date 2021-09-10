@@ -13,5 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::resource('locations', 'Api\LocationController', ['only' => ['index', 'store', 'destroy']]);
-Route::resource('items', 'Api\ItemController', ['only' => ['index', 'store', 'destroy']]);
+Route::resource('locations', 'Api\LocationController', ['only' => ['index', 'store', 'destroy','update']]);
+Route::resource('items', 'Api\ItemController', ['only' => ['index', 'store', 'destroy','update']]);
+Route::resource('categories', 'Api\CategoriesController', ['only' => ['index', 'store', 'destroy','update']]);
+

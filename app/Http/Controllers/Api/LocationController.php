@@ -22,4 +22,9 @@ class LocationController extends Controller
     {
         $location->delete();
     }
+
+    public function update(Request $request, Location $location)
+    {
+        $location->update($request->all());
+    }
 }

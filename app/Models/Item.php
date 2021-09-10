@@ -11,8 +11,13 @@ class Item extends Model
 
     protected $guarded = ['id'];
 
-    public function location()
+    public function locations()
     {
-        return $this->belongsTo(Location::class);
+        return $this->belongsTo(Location::class , 'location_id')->select('id', 'name');
+    }
+
+    public function categories()
+    {
+        return $this->belongsTo(Categories::class, 'category_id');
     }
 }

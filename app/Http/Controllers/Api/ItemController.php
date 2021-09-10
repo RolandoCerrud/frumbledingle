@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Routing\Controller;
 use App\Models\Item;
+use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
     public function index()
     {
-        return response()->json(Item::get());
+        return response()->json(Item::with('locations','categories')->get());
     }
 
     public function store(Request $request)
@@ -25,5 +26,10 @@ class ItemController extends Controller
     public function destroy(Item $item)
     {
         $item->delete();
+    }
+
+    public function update(Request $request, Item $item)
+    {
+        $item->update($request->all());
     }
 }
