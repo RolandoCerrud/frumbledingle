@@ -46,12 +46,10 @@
                 </div>
                 <input v-model="newItemName" type="text" class="form-control" placeholder="Item Name" />
                 <input v-model="newItemPrice" type="number" :min="0" class="form-control" placeholder="Item Price" />
-                 <select class="form-control" v-model="newItemCategory">
-                    <option disabled value="0">Choose Item Category</option>
+                 <select class="form-control" v-model="newItemCategory" >
                     <option v-for="option1 in categories" :key="option1.id" :value="option1.id">{{ option1.name }}</option>
                 </select>
                  <select class="form-control" v-model="newItemLocation" >
-                    <option disabled value="0">Choose Item Location</option>
                     <option v-for="option2 in locations" :key="option2.id" :value="option2.id">{{ option2.name }}</option>
                 </select>
                     <button class="btn btn-primary">Create</button>
@@ -72,7 +70,7 @@
                     <td>{{ row.name }}</td>
                     <td>{{ row.locations['name']}}</td>
                     <td>{{ row.categories['name']}}</td>
-                    <td align="center"><button class="btn btn-primary btn-sm" @click="openModal(row)" ><i class="fa fa-pencil" /> Edit</button><button class="btn btn-danger btn-sm" @click.prevent="deleteCategories(row.id)"><i class="fa fa-times" /> Delete</button></td>
+                    <td align="center"><button class="btn btn-primary btn-sm" @click="openModal(row)" ><i class="fa fa-pencil" /> Edit</button><button class="btn btn-danger btn-sm" @click.prevent="deleteItems(row.id)"><i class="fa fa-times" /> Delete</button></td>
                 </tr>
             </tbody>
         </table>
@@ -90,8 +88,8 @@ export default {
             locations: [],
             newItemName: '',
             newItemPrice: 0,
-            newItemCategory: '0',
-            newItemLocation: '0',
+            newItemCategory: '',
+            newItemLocation: '',
             show_modal: 0,
             id:0,
             item:{
@@ -127,11 +125,19 @@ export default {
                 }).catch(console.error);
         },
         createItems() {
+            if (!this.newItemCategory){ // is null or zero
+            alert("Please select a category");
+            }else if (!this.newItemLocation){ // is null or zero
+            alert("Please select a location");
+            }
+            else
+            {
             return axios.post('/api/items', {name: this.newItemName, price: this.newItemPrice, category: this.newItemCategory, location: this.newItemLocation})
                 .then(this.getItems)
                 .then(() => this.newItemName = '')
                 .then(() => this.newItemPrice = '')
                 .catch(console.error);
+                }
         },
         deleteItems(id) {
             return axios.post('/api/items/' + id, {_method: 'DELETE'})

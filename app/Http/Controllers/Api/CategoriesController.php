@@ -10,7 +10,7 @@ class CategoriesController extends Controller
 {
     public function index()
     {
-        return response()->json(Categories::with('parents')->whereNotNull('parent_id')->get());
+        return response()->json(Categories::with('parents')->get());
     }
 
     public function store(Request $request)

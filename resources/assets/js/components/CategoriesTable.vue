@@ -43,7 +43,7 @@
                     <option v-for="option in categories" :key="option.id" :value="option.id">{{ option.name }}</option>
                 </select>
                 <div class="input-group-append">
-                    <button class="btn btn-primary">Crear</button>
+                    <button class="btn btn-primary">Create</button>
                 </div>
             </div>
         </form>
@@ -55,10 +55,15 @@
                 <th></th>
             </thead>
             <tbody>
-                 <tr v-for="(row, index) in categories" :key="index">
+                 <tr v-for="row in categories" :key="row.id">
                     <td>{{ row.id }}</td>
                     <td>{{ row.name }}</td>
-                    <td>{{ row.parents['name']}}</td>
+                    <template v-if="row.parent_id == 0">
+                    <td></td>
+                    </template>
+                    <template v-else>
+                    <td>{{ row.parents.name}}</td>
+                    </template>
                     <td align="center"><button class="btn btn-primary btn-sm" @click="openModal(row)" ><i class="fa fa-pencil" /> Edit</button><button class="btn btn-danger btn-sm" @click.prevent="deleteCategories(row.id)"><i class="fa fa-times" /> Delete</button></td>
                 </tr>
             </tbody>
@@ -87,6 +92,7 @@ export default {
         this.getCategories();
     },
     methods: {
+        
         getCategories() {
             return axios.get('/api/categories')
                 .then(response => {
@@ -121,6 +127,7 @@ export default {
         },
     }
 }
+
 </script>
 
 <style>
